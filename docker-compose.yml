@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  web:
+    command: npm run start
+    container_name: Node_web
+    build:
+      context: ./docker/web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/var/www/app
+
+  db:
+    container_name: NodeDB
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    hostname: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=concussionapp
+  cache:
+    container_name: Node_cache
+    image: redis:4.0.11
+    ports:
+      - "63790:6379"
+#   search:
+#     container_name: Laravel_search
+#     image: elasticsearch:6.4.1
+#     ports:
+#       - "6200:9200"
